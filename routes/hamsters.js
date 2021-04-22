@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 	res.status(200).send(items)
 })
 
-////GET /random ????????????????
+////GET /random
 router.get('/random', async (req, res) => {
 	const hamsterRef = db.collection('hamsters');
   const snapshot = await hamsterRef.get();
@@ -31,6 +31,7 @@ router.get('/random', async (req, res) => {
     res.send([])
 		return
   }
+
   items = []
 
   snapshot.forEach(doc => {
@@ -39,8 +40,8 @@ router.get('/random', async (req, res) => {
       items.push(data)
   })
 
-    const randomIndex = Math.floor(Math.random() * items.length)
-    res.status(200).send(items[randomIndex])
+  const randomIndex = Math.floor(Math.random() * items.length)
+  res.status(200).send(items[randomIndex])
 })
 
 
@@ -73,7 +74,7 @@ router.post('/', async (req, res) => {
 	res.sendStatus(200)
 })
 
-////PUT
+////PUT /:id
 router.put('/:id', async (req, res) => {
 	const object = req.body
 	const id = req.params.id
@@ -91,7 +92,7 @@ router.put('/:id', async (req, res) => {
 	res.sendStatus(200)
 })
 
-////DELETE
+////DELETE /:id
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id
 
