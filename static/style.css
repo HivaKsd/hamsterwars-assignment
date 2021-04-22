@@ -1,0 +1,25 @@
+h1 {
+	color: darkgreen;
+}
+main {
+	max-width: 728px;
+    margin: 0 auto;
+    padding: 10px;
+		background: #A4C3A4;
+    color: #77aa77;
+		font-family: sans-serif;
+}
+#header {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 20px;
+		font-size: x-large;
+}
+#displayData {
+	padding-top: 20px;
+    width: 100%;
+    float: left;
+    border-top: dashed 1px;
+		max-width: 728px;
+		float: left;
+}
