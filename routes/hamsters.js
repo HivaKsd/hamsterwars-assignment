@@ -111,6 +111,7 @@ router.delete('/:id', async (req, res) => {
 
 
 
+
 function isHamstersObject(maybeObject) {
 	if( !maybeObject )
 		return false

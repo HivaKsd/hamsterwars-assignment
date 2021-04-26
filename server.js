@@ -5,7 +5,7 @@ const path = require('path')
 const hamsters = require('./routes/hamsters.js')
 const matches = require('./routes/matches.js')
 
-const PORT = 1338
+const PORT = process.env.PORT || 1338
 const staticFolder = path.join(__dirname, 'static')
 
 app.use((req, res, next) => {

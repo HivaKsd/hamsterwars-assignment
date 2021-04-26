@@ -24,6 +24,30 @@ router.get('/', async (req, res) => {
 })
 
 
+////GET /matchWinners/:winnerIdid
+router.get('/matchwinners/:winnerId', async (req, res) => {
+	const docRef = db.collection('matches');
+	const winnerId = req.params.winnerId
+	var snapshot = await docRef.doc(winnerId).get();
+	if (snapshot.empty) {
+		res.send([])
+		return
+	}
+
+	items = []
+
+	snapshot.forEach(doc => {
+			const data = doc.data()
+			data.winnerId = doc.winnerId
+			items.push(data)
+	})
+
+	res.status(200).send(items)
+
+
+})
+
+
 ////GET /:id
 router.get('/:id', async (req, res) => {
 	const id = req.params.id
