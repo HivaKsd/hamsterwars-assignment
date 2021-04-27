@@ -71,7 +71,7 @@ router.post('/', async (req, res) => {
 	}
 
 	const docRef = await db.collection('hamsters').add(object)
-	res.sendStatus(200)
+	res.status(200).send(docRef.id)
 })
 
 ////PUT /:id
@@ -115,7 +115,7 @@ router.delete('/:id', async (req, res) => {
 function isHamstersObject(maybeObject) {
 	if( !maybeObject )
 		return false
-	else if( !maybeObject.name || !maybeObject.age )
+	else if( !maybeObject.name || !maybeObject.age || !maybeObject.favFood || !maybeObject.loves || !maybeObject.imgName || !maybeObject.wins || !maybeObject.defeats || !maybeObject.games )
 		return false
 
 	return true
