@@ -66,12 +66,14 @@ router.post('/', async (req, res) => {
 	const object = req.body
 
 	if( !isHamstersObject(object) ) {
-		res.sendStatus(400)
+		res.status(400).send("Object is not defined")
 		return
 	}
 
 	const docRef = await db.collection('hamsters').add(object)
-	res.status(200).send(docRef.id)
+	const newId = docRef.id
+	const newObject = {id: newId}
+	res.status(200).send(newObject)
 })
 
 ////PUT /:id
@@ -79,13 +81,13 @@ router.put('/:id', async (req, res) => {
 	const object = req.body
 	const id = req.params.id
 
-	if( !isChangeObject(object) ) {
-		res.sendStatus(400)
-		return
-	}
   const docRef = await db.collection('hamsters').doc(id).get()
 	if( !docRef.exists ) {
 		res.status(404).send('This hamster does not exist')
+		return
+	}
+	else if (Object.keys(object).length === 0) {
+		res.status(400).send('Bad Request!')
 		return
 	}
 	await db.collection('hamsters').doc(id).set(object, { merge: true })
@@ -115,8 +117,16 @@ router.delete('/:id', async (req, res) => {
 function isHamstersObject(maybeObject) {
 	if( !maybeObject )
 		return false
-	else if( !maybeObject.name || !maybeObject.age || !maybeObject.favFood || !maybeObject.loves || !maybeObject.imgName || !maybeObject.wins || !maybeObject.defeats || !maybeObject.games )
+	else if( !maybeObject.name || !maybeObject.favFood || !maybeObject.loves || !maybeObject.imgName)
+	return false
+  else if (Number(maybeObject.age) < 0)
 		return false
+	else if (Number(maybeObject.wins) < 0)
+			return false
+	else if (Number(maybeObject.defeats) < 0)
+			return false
+	else if (Number(maybeObject.games) < 0)
+			return false
 
 	return true
 }

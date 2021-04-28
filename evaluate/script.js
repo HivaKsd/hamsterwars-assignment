@@ -9,11 +9,12 @@ const status = { ok: '✔️', fail: '❌', inProgress: '⏳', notStarted: '❔'
 
 // Test för varje resurs i uppgiften
 const testData = {}
-const tests = (await import('./tests.js')).tests(addEvaluator, testData)
+const tests = (await import('./tests.js')).tests(addEvaluator, testData, separator)
 
 
 
 testAllButton.addEventListener('click', async () => {
+	console.clear();
 	console.log('Running tests...');
 	console.time('api-tests')
 	// Need to run the tests after each other
@@ -52,8 +53,8 @@ function addEvaluator(params) {
 			let response;
 			let json;
 
-			// if( method == 'POST' )
-			// 	console.log(`script.js sending request: ${method} ${resource}`, body);
+			span3.innerHTML = ''  // clear error messages
+
 			if( hasRequestBody ) {
 				response = await fetch(resource, { method, headers: { 'Content-Type': 'application/json' }, body })
 			} else {
@@ -75,12 +76,35 @@ function addEvaluator(params) {
 			}
 
 		} catch(e) {
-			console.error('Evaluator error: ', e.message)
+			console.error("Evaluator error. (Hint: Check that the API responds with data in JSON format)\nMessage: ", e.message)
 			span1.innerHTML = status.fail
 		}
 	}
 }
 
+function separator() {
+	// Insert a separator between tests
+	console.log('SEPARATOR')
+	let div = ce('div'), hr = ce('hr')
+	div.appendChild(hr)
+	submission.appendChild(div)
+	return async () => {}
+}
+
 function isFunction(functionToCheck) {
 	return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+urlInput.addEventListener('keyup', validateInput)
+validateInput()
+
+function validateInput() {
+	let value = urlInput.value
+	if( !value.startsWith('http')
+		|| ['??', '/', ':'].some(x => value.endsWith(x)) ) {
+		urlInput.className = 'validate-error'
+		return
+	}
+
+	urlInput.className = 'validate-success'
 }

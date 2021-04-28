@@ -24,7 +24,6 @@ router.get('/', async (req, res) => {
 })
 
 
-
 ////GET /:id
 router.get('/:id', async (req, res) => {
 	const id = req.params.id
